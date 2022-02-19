@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 
+function sendMessage(msg: any) {
+  parent.postMessage({ pluginMessage: msg }, '*');
+}
+
 function App() {
   const [selectedTextNodes, setSelectedTextNodes] = useState<any[]>([]);
-
-  const onMessage = (msg) => {
-    if (msg.data.pluginMessage && msg.data.pluginMessage.event === 'selected-text-nodes') {
-      setSelectedTextNodes(msg.data.pluginMessage.nodes);
-    }
-  };
 
   useEffect(() => {
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
   }, []);
 
-  return <div>App</div>;
+  useEffect(() => {
+    sendMessage('GET_STYLES');
+  }, []);
+
+  const onMessage = (event) => {
+    console.log(event.data.pluginMessage);
+  };
+
+  return <div></div>;
 }
 
 export default App;
