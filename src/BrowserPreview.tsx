@@ -68,7 +68,9 @@ function BrowserPreview() {
             width: 750,
             height: 500,
             margin: '100px auto 0',
-            border: '1px solid black',
+            boxShadow: '0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04)',
+            border: '1px solid #eee',
+            borderRadius: 2,
           }}
         >
           <App />
