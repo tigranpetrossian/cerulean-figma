@@ -23,6 +23,7 @@ function BrowserPreview() {
   const startWebSocket = () => {
     ws.current = new WebSocket('ws://localhost:9001/ws');
     ws.current.onopen = () => {
+      // TODO: Doesn't look like this works correctly
       console.log('ws opened');
       setIsConnected(true);
     };

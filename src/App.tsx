@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Main } from 'components/Main';
 
 function sendMessage(msg: any) {
   parent.postMessage({ pluginMessage: msg }, '*');
 }
 
 function App() {
-  const [selectedTextNodes, setSelectedTextNodes] = useState<any[]>([]);
-
   useEffect(() => {
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
@@ -20,7 +19,7 @@ function App() {
     console.log(event.data.pluginMessage);
   };
 
-  return <div></div>;
+  return <Main></Main>;
 }
 
 export default App;
