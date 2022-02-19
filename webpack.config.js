@@ -20,7 +20,11 @@ module.exports = (env, argv) => ({
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    open: true,
+    open: {
+      app: {
+        name: 'google-chrome',
+      },
+    },
     openPage: '/ui.html',
     hot: true,
     inline: true,
@@ -39,6 +43,7 @@ module.exports = (env, argv) => ({
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
+              configFile: 'tsconfig.json',
               getCustomTransformers: () => ({
                 before: argv.PREVIEW_ENV === 'browser ' ? [ReactRefreshTypeScript()] : [],
               }),
@@ -53,7 +58,10 @@ module.exports = (env, argv) => ({
   },
 
   // Webpack tries these extensions for you if you omit the extension like "import './file'"
-  resolve: { extensions: ['.tsx', '.ts', '.jsx', '.js'] },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    modules: ['node_modules', path.join(__dirname, 'src')],
+  },
 
   output: {
     filename: '[name].js',

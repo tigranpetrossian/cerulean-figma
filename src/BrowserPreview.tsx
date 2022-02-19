@@ -5,12 +5,12 @@ const PREVIEW_ENV = process.env.PREVIEW_ENV;
 
 function BrowserPreview() {
   const [isConnected, setIsConnected] = useState(false);
-  const ws = useRef(null);
+  const ws = useRef<WebSocket | null>(null);
 
   const onWindowMsg = (msg) => {
     if (msg.data.pluginMessage) {
       const message = JSON.stringify(msg.data.pluginMessage);
-      if (ws.current.readyState === 1) {
+      if (ws.current && ws.current.readyState === 1) {
         ws.current.send(message);
       } else {
         setTimeout(() => {
@@ -50,7 +50,7 @@ function BrowserPreview() {
     window.addEventListener('message', onWindowMsg);
 
     return () => {
-      ws.current.close();
+      ws.current && ws.current.close();
       window.removeEventListener('message', onWindowMsg);
     };
   };
