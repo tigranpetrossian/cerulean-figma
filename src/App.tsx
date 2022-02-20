@@ -1,25 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Main } from 'components/Main';
+import { useFigmaPalettes } from 'store/useFigmaPalettes';
 
 function sendMessage(msg: any) {
   parent.postMessage({ pluginMessage: msg }, '*');
 }
 
 function App() {
-  useEffect(() => {
-    window.addEventListener('message', onMessage);
-    return () => window.removeEventListener('message', onMessage);
-  }, []);
+  useFigmaPalettes();
 
-  useEffect(() => {
-    sendMessage('GET_STYLES');
-  }, []);
-
-  const onMessage = (event) => {
-    console.log(event.data.pluginMessage);
-  };
-
-  return <Main></Main>;
+  return <Main>App</Main>;
 }
 
 export default App;
