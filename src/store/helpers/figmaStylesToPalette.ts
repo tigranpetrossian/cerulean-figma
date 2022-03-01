@@ -26,7 +26,8 @@ function singleStyleToColor(style: FigmaPaintStyle): Color {
       id: style.id,
       name: style.name,
       value: null,
-      errors: ['MISSING_COLOR'],
+      alpha: null,
+      error: 'MISSING_COLOR',
     };
   }
 
@@ -35,7 +36,8 @@ function singleStyleToColor(style: FigmaPaintStyle): Color {
       id: style.id,
       name: style.name,
       value: null,
-      errors: ['NOT_SOLID'],
+      alpha: null,
+      error: 'NOT_SOLID',
     };
   }
 
@@ -46,9 +48,9 @@ function singleStyleToColor(style: FigmaPaintStyle): Color {
   return {
     id: style.id,
     name: style.name,
-    // TODO: use opacity when calculating the color
     value: figmaRgbToHSV(paints[0].color),
-    errors: [],
+    alpha: paints[0].opacity ?? 1,
+    error: null,
   };
 }
 
@@ -61,7 +63,7 @@ const STYLE_NAME_PATTERN = /^\$(?<name>[a-zA-Z-]*)-(?<index>\d{1,4})$/;
 // If doesn't have paint at index 0, mark as invalid
 
 export function figmaStylesToPalette(styles: FigmaPaintStyle[]): Palette[] {
-  const result = R.pipe(
+  return R.pipe(
     styles,
     R.reduce<FigmaPaintStyle, (FigmaPaintStyle & { paletteName: string; index: number })[]>(
       (result, style) => {
@@ -89,6 +91,4 @@ export function figmaStylesToPalette(styles: FigmaPaintStyle[]): Palette[] {
       });
     }
   );
-
-  return result;
 }
