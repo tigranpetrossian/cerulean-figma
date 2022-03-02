@@ -5,5 +5,6 @@ export const Main = styled('main', {
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  paddingTop: '$4',
   overflow: 'hidden',
 });

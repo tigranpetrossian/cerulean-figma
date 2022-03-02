@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Main } from 'components/Main';
 import { useFigmaPalettes } from 'store/useFigmaPalettes';
+import PaletteList from 'components/PaletteList';
+import { globalStyles } from '@ui/stitches.config';
 
 function sendMessage(msg: any) {
   parent.postMessage({ pluginMessage: msg }, '*');
 }
 
 function App() {
-  useFigmaPalettes();
+  globalStyles();
 
-  return <Main>App</Main>;
+  return (
+    <Main>
+      <PaletteList />
+    </Main>
+  );
 }
 
 export default App;

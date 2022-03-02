@@ -1,8 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { figmaAction } from 'helpers/figmaAction';
 import { figmaStylesToPalette } from 'store/helpers/figmaStylesToPalette';
+import { HSV, Palette } from 'types';
 
-export function useFigmaPalettes() {
+type Store = {
+  palettes: Palette[];
+  addPalette: () => void;
+  renamePalette: (id: string, name: string) => void;
+  addColor: (paletteId: string) => void;
+  changeColor: (id: string, paletteId: string, hsv: HSV) => void;
+};
+
+export function useFigmaPalettes(): Store {
+  const [palettes, setPalettes] = useState<Palette[]>([]);
+
   useEffect(() => {
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
@@ -17,10 +28,14 @@ export function useFigmaPalettes() {
       return;
     }
 
-    console.log(figmaStylesToPalette(event.data.pluginMessage.styles));
+    setPalettes(figmaStylesToPalette(event.data.pluginMessage.styles));
   };
 
   return {
-    palettes: [],
+    palettes,
+    addPalette: () => undefined,
+    renamePalette: (id: string, name: string) => undefined,
+    addColor: (paletteId: string) => undefined,
+    changeColor: (id: string, paletteId: string, hsv: HSV) => undefined,
   };
 }
