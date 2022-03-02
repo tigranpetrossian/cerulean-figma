@@ -41,10 +41,6 @@ function singleStyleToColor(style: FigmaPaintStyle): Color {
     };
   }
 
-  if (style.name.startsWith('$-some')) {
-    console.log(paints);
-  }
-
   return {
     id: style.id,
     name: style.name,
@@ -54,13 +50,7 @@ function singleStyleToColor(style: FigmaPaintStyle): Color {
   };
 }
 
-const STYLE_NAME_PATTERN = /^\$(?<name>[a-zA-Z-]*)-(?<index>\d{1,4})$/;
-
-// TODO:
-// filter the ones starting with one $ ($$neutral, or $$-neutral, use regex)
-// group by prefix (palette name/id) is the prefix
-// Add type guard for isSolid(paint): paint is SolidPaint
-// If doesn't have paint at index 0, mark as invalid
+const STYLE_NAME_PATTERN = /^\$(?<name>[a-z][a-z-\s]*)-(?<index>\d{1,4})$/;
 
 export function figmaStylesToPalette(styles: FigmaPaintStyle[]): Palette[] {
   return R.pipe(
