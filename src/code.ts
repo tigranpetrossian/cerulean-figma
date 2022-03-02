@@ -1,5 +1,8 @@
 /// <reference path="../node_modules/@figma/plugin-typings/index.d.ts" />
 
+import { figmaStylesToPalette } from 'store/helpers/figmaStylesToPalette';
+import { clone } from 'remeda';
+
 export {};
 
 const PREVIEW_ENV = process.env.PREVIEW_ENV;
@@ -14,15 +17,11 @@ if (PREVIEW_ENV === 'figma') {
 
 figma.ui.onmessage = async (msg) => {
   if (msg === 'GET_STYLES') {
-    const colorStyles = figma.getLocalPaintStyles();
+    const colorStyles = clone(figma.getLocalPaintStyles());
 
     figma.ui.postMessage({
       name: 'styles',
-      styles: colorStyles.map((style) => ({
-        id: style.id,
-        name: style.name,
-        paints: style.paints,
-      })),
+      styles: figmaStylesToPalette(colorStyles),
     });
   }
 };

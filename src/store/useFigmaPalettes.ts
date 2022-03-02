@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { figmaAction } from 'helpers/figmaAction';
-import { figmaStylesToPalette } from 'store/helpers/figmaStylesToPalette';
 import { HSV, Palette } from 'types';
 
 type Store = {
@@ -28,7 +27,7 @@ export function useFigmaPalettes(): Store {
       return;
     }
 
-    setPalettes(figmaStylesToPalette(event.data.pluginMessage.styles));
+    setPalettes(event.data.pluginMessage.styles);
   };
 
   return {

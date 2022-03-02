@@ -2,8 +2,6 @@ import chroma from 'chroma-js';
 import { Color, Palette } from 'types';
 import * as R from 'remeda';
 
-type FigmaPaintStyle = Pick<PaintStyle, 'id' | 'name' | 'paints'>;
-
 function figmaRgbToHSV({ r, g, b }: RGB) {
   const [h, s, v] = chroma.rgb(Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)).hsv();
 
@@ -18,7 +16,7 @@ function isSolidFigmaPaint(paint: Paint): paint is SolidPaint {
   return paint.type === 'SOLID';
 }
 
-function singleStyleToColor(style: FigmaPaintStyle): Color {
+function singleStyleToColor(style: PaintStyle): Color {
   const { paints } = style;
 
   if (!paints[0]) {
@@ -52,10 +50,10 @@ function singleStyleToColor(style: FigmaPaintStyle): Color {
 
 const STYLE_NAME_PATTERN = /^\$(?<name>[a-z][a-z-\s]*)-(?<index>\d{1,4})$/;
 
-export function figmaStylesToPalette(styles: FigmaPaintStyle[]): Palette[] {
+export function figmaStylesToPalette(styles: PaintStyle[]): Palette[] {
   return R.pipe(
     styles,
-    R.reduce<FigmaPaintStyle, (FigmaPaintStyle & { paletteName: string; index: number })[]>(
+    R.reduce<PaintStyle, (PaintStyle & { paletteName: string; index: number })[]>(
       (result, style) => {
         const nameMatch = STYLE_NAME_PATTERN.exec(style.name);
 

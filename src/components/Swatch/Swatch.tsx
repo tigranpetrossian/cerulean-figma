@@ -40,7 +40,6 @@ type Props = {
 };
 
 const Swatch = (props: Props) => {
-  const { changeColor } = useFigmaPalettes();
   const { paletteName, color } = props;
   const { value: hsv } = color;
 
@@ -51,7 +50,7 @@ const Swatch = (props: Props) => {
   const hexColor = hsvToHex(hsv);
 
   const handleChange = (hsv: HSV) => {
-    changeColor(color.id, paletteName, hsv);
+    //changeColor(color.id, paletteName, hsv);
   };
 
   return (
